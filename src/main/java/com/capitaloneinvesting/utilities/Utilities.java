@@ -5,6 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.capitaloneinvesting.model.ResponseWrapper;
 import com.capitaloneinvesting.model.Transaction;
 import com.capitaloneinvesting.ui.model.DisplayTransaction;
@@ -17,7 +21,10 @@ import com.capitaloneinvesting.ui.model.DisplayTransaction;
  */
 public class Utilities {
 
+	private static final Logger logger = LoggerFactory.getLogger(Utilities.class);
+
 	public static Map<String, DisplayTransaction> getTransactionsToDisplay(ResponseWrapper responseObj, boolean ignoreDonuts) {
+		int donutTxnCounter = 0;
 		List<Transaction> allTransactionsList;
 		if (responseObj != null && responseObj.getTransactions() != null && responseObj.getTransactions().size() > 0) {
 			allTransactionsList = responseObj.getTransactions();
@@ -26,6 +33,7 @@ public class Utilities {
 			long totalSpentTransactionsCount = 0, totalIncomeTransactionsCount = 0;
 
 			for (Transaction transaction : allTransactionsList) {
+				logger.info(transaction.toString());
 				DisplayTransaction displayTransaction;
 				if (displayTransactionsMap.containsKey(transaction.getTransactionTime())) {
 					displayTransaction = displayTransactionsMap.get(transaction.getTransactionTime());
@@ -45,15 +53,17 @@ public class Utilities {
 					long amount = transaction.getAmount();
 					if (!(isDonutsSpending(transaction) && ignoreDonuts)) {
 						displayTransaction.setSpentLong(spent + Math.abs(amount));
-
 						totalSpent += Math.abs(transaction.getAmount());
 						totalSpentTransactionsCount++;
+					} else {
+						donutTxnCounter = donutTxnCounter + 1;
 					}
 				}
 				formatTransaction(displayTransaction);
 				displayTransactionsMap.put(transaction.getTransactionTime(), displayTransaction);
 			}
 			displayTransactionsMap.put("average", new DisplayTransaction(totalSpent / totalSpentTransactionsCount, totalIncome / totalIncomeTransactionsCount));
+			logger.info("Total Number of donut transactions ::" + donutTxnCounter);
 			return displayTransactionsMap;
 		}
 		return null;
@@ -72,7 +82,8 @@ public class Utilities {
 	}
 
 	private static boolean isDonutsSpending(Transaction transaction) {
-		return transaction != null && (transaction.getMerchant().equalsIgnoreCase("Krispy Kreme Donuts") || transaction.getMerchant().equalsIgnoreCase("DUNKIN #336784"));
+		boolean isDonut = transaction != null && (transaction.getMerchant().equalsIgnoreCase("Krispy Kreme Donuts") || transaction.getMerchant().equalsIgnoreCase("DUNKIN #336784"));
+		return isDonut;
 	}
 
 }

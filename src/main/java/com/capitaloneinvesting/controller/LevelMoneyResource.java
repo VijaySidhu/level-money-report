@@ -1,14 +1,18 @@
 package com.capitaloneinvesting.controller;
 
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.capitaloneinvesting.exceptions.SystemException;
 import com.capitaloneinvesting.service.TransactionService;
 import com.capitaloneinvesting.ui.model.DisplayTransaction;
 
@@ -23,15 +27,15 @@ public class LevelMoneyResource {
 
 	@GetMapping
 	@RequestMapping("/monthlysummary")
-	public @ResponseBody Map<String, DisplayTransaction> findMonthlySummary(@RequestParam(value = "ignoreDonuts") boolean ignoreDonuts) {
+	public @ResponseBody Map<String, DisplayTransaction> findMonthlySummary(@RequestParam(value = "ignoreDonuts", required = true) boolean ignoreDonuts) throws SystemException {
 		Map<String, DisplayTransaction> txnsMap = null;
 		try {
+			logger.info("Loading Transactions ignoreDonuts is set to ::" + ignoreDonuts);
 			txnsMap = transactionService.loadTransactions(ignoreDonuts);
-			if (null != txnsMap) {
-				// TODO Formatting
-			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
+			SystemException systemException = new SystemException(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "Internal System Error");
+			throw systemException;
 		}
 		return txnsMap;
 	}

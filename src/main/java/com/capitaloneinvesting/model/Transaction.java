@@ -1,6 +1,6 @@
 package com.capitaloneinvesting.model;
 
-import java.math.BigDecimal;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -123,6 +123,12 @@ public class Transaction {
 		String printedYearMonth = String.valueOf(year) + "-" + month;
 		return printedYearMonth;
 
+	}
+
+	@Override
+	public String toString() {
+		ReflectionToStringBuilder builder = new ReflectionToStringBuilder(this);
+		return builder.build();
 	}
 
 }
