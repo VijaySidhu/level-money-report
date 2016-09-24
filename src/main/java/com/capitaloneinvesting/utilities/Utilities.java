@@ -31,7 +31,6 @@ public class Utilities {
 			Map<String, DisplayTransaction> displayTransactionsMap = new LinkedHashMap<>();
 			long totalSpent = 0, totalIncome = 0;
 			long totalSpentTransactionsCount = 0, totalIncomeTransactionsCount = 0;
-
 			for (Transaction transaction : allTransactionsList) {
 				logger.info(transaction.toString());
 				DisplayTransaction displayTransaction;
@@ -44,7 +43,6 @@ public class Utilities {
 					long income = displayTransaction.getIncomeLong();
 					long amount = transaction.getAmount();
 					displayTransaction.setIncomeLong(income + amount);
-
 					totalIncome += transaction.getAmount();
 					totalIncomeTransactionsCount++;
 
@@ -62,11 +60,26 @@ public class Utilities {
 				formatTransaction(displayTransaction);
 				displayTransactionsMap.put(transaction.getTransactionTime(), displayTransaction);
 			}
-			displayTransactionsMap.put("average", new DisplayTransaction(totalSpent / totalSpentTransactionsCount, totalIncome / totalIncomeTransactionsCount));
+			/**
+			 * Calculate Average
+			 */
+			DisplayTransaction ds = calculateAvergate(totalSpent, totalIncome, totalSpentTransactionsCount, totalIncomeTransactionsCount);
+			/**
+			 * Add Average Object to map
+			 */
+			displayTransactionsMap.put("average", ds);
 			logger.info("Total Number of donut transactions ::" + donutTxnCounter);
 			return displayTransactionsMap;
 		}
 		return null;
+	}
+
+	private static DisplayTransaction calculateAvergate(long totalSpent, long totalIncome, long totalSpentTransactionsCount, long totalIncomeTransactionsCount) {
+		long avgSpent = totalSpent / totalSpentTransactionsCount;
+		long avgIncome = totalIncome / totalIncomeTransactionsCount;
+		DisplayTransaction ds = new DisplayTransaction(avgSpent, avgIncome);
+		formatTransaction(ds);
+		return ds;
 	}
 
 	private static void formatTransaction(DisplayTransaction displayTransaction) {
