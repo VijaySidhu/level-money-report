@@ -12,6 +12,8 @@ out
 .project
 .settings
 *.jar
+bin
+bin/
 target
 target/
 pom.xml.tag
