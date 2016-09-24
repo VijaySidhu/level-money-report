@@ -4,6 +4,11 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Transaction Returned from Level Money API
+ * @author VijaySidhu
+ *
+ */
 public class Transaction {
 
 	@JsonProperty(value = "amount")

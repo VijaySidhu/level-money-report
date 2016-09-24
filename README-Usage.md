@@ -16,10 +16,11 @@ Below open source technologies are used to build this API.
 	2. Spring Frame Work
 	3. Spring Boot
 	4. Maven 3
-	5. Embedded Tomcat Server in Spring Boot 
+	5. Embedded Tomcat Server in Spring Boot
+	6. Jackson for JSON data 
 
 
-Prerequisite
+How to run API ?  Prerequisite
 -----------
 
 	1. Java 8
@@ -27,8 +28,7 @@ Prerequisite
 	3. Postman Rest client to test api
 
 
-How to run API
----------
+
 Level Money Get All Transactions need user id, api token & token for authentication. Below properties are configured in application.properties file, please change values if you need to run with different values
 
 uid=1110590645

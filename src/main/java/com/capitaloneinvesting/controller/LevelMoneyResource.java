@@ -27,7 +27,7 @@ public class LevelMoneyResource {
 
 	@GetMapping
 	@RequestMapping("/monthlysummary")
-	public @ResponseBody Map<String, DisplayTransaction> findMonthlySummary(@RequestParam(value = "ignoreDonuts", required = true) boolean ignoreDonuts) throws SystemException {
+	public @ResponseBody Map<String, DisplayTransaction> findMonthlySummary(@RequestParam(value = "ignoreDonuts", required = true, defaultValue = "true") boolean ignoreDonuts) throws SystemException {
 		Map<String, DisplayTransaction> txnsMap = null;
 		try {
 			logger.info("Loading Transactions ignoreDonuts is set to ::" + ignoreDonuts);
