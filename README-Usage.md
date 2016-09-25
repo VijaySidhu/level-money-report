@@ -53,8 +53,8 @@ Resources Accessible
 
 - Request Parameter
 
-	Parameter	Type	Default	Description   Required
-	 boolean         true     ignoreDonut     No
+	-- Parameter	Type	Default	Description   Required
+	     boolean         true     ignoreDonut     No
 
 
                    1. Open POSTMAN Rest Client
