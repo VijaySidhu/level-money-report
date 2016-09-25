@@ -6,6 +6,7 @@ Level-Money-Report is a REST API that does the following:
 
 - Loads a user's transactions from the GetAllTransactions endpoint
 - Determines how much money the user spends and makes in each of the months for which we have data, and in the "average" month.
+- Generate predicted spending and income numbers for the rest of this month, in addition to previous month
 
 
 Technology Stack 
@@ -46,20 +47,43 @@ Resources Accessible
 
 - **Get /transactions**   
 
-                   1. http://localhost:8080/transactions/monthlysummary?ignoreDonuts=true
-                   2. Hit on Get button to retrieve monthly summary
+	- **Get /transactions/monthlysummary**  
+
+- Monthly Summary : Determines total money spent and income in each of the months for which we have data, and in the "average" month.
+
+- Request Parameter
+
+	Parameter	Type	Default	Description   Required
+	 boolean         true     ignoreDonut     No
+
+
+                   1. Open POSTMAN Rest Client
+                   2. http://localhost:8080/transactions/monthlysummary
+                   3. Hit on Get button to retrieve monthly summary
+                   
+  
+                   
+  
 				   
-   Output 
-   				{
-	   
-				    "2016-9": {
-			  		 "spent": "$31,964,800.00",
-			    	 "income": "$22,296,300.00"
-			  		 },
+   Output Format :: API is returning output in JSON Format
+   				
 			  
-			  		"average": {
-			    	"spent": null,
-			    	"income": null
-			  }
+
+    - **Get /transactions/predictedReport**  
+			  
+- Generate predicted spending and income numbers for the rest of this month, in addition to previous month
+
+- Request Parameter
+
+	Parameter	Type	Default	  Description         Required
+	 int             yyyy     Year(4 digits)         Yes
+	 int             mm       mm (2 digits)          Yes
+
+			  
+			  1. Open POSTMAN Rest Client
+			  2. http://localhost:8080/transactions/predictedReport?yyyy=2016&mm=9 
+			  3. Hit on Get button to retrieve monthly summary
+			  
+   Output Format :: API is returning output in JSON Format
   				   
 
