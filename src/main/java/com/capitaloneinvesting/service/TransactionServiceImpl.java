@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.capitaloneinvesting.businesslogic.Businesslogic;
 import com.capitaloneinvesting.model.ResponseWrapper;
 import com.capitaloneinvesting.ui.model.DisplayTransaction;
-import com.capitaloneinvesting.utilities.Utilities;
 
 @Component
 public class TransactionServiceImpl implements TransactionService {
@@ -46,7 +46,7 @@ public class TransactionServiceImpl implements TransactionService {
 		logger.info("Calling Level Money API get-all-transactions");
 		ResponseWrapper res = restTemplate.postForObject(url, this.toString(), ResponseWrapper.class);
 		if ("no-error".equals(res.getError())) {
-			transaction = Utilities.getTransactionsToDisplay(res, ignoreDonuts);
+			transaction = Businesslogic.getTransactionsToDisplay(res, ignoreDonuts);
 		} else {
 			logger.error("Error while calling Level Money REST API::" + res.getError());
 		}

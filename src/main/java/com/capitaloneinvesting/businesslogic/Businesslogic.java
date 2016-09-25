@@ -1,4 +1,4 @@
-package com.capitaloneinvesting.utilities;
+package com.capitaloneinvesting.businesslogic;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -20,9 +20,9 @@ import com.capitaloneinvesting.ui.model.DisplayTransaction;
  * @author VijaySidhu
  *
  */
-public class Utilities {
+public class Businesslogic {
 
-	private static final Logger logger = LoggerFactory.getLogger(Utilities.class);
+	private static final Logger logger = LoggerFactory.getLogger(Businesslogic.class);
 
 	public static Map<String, DisplayTransaction> getTransactionsToDisplay(ResponseWrapper responseObj, boolean ignoreDonuts) {
 		int donutTxnCounter = 0;
