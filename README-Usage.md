@@ -21,12 +21,12 @@ Below open source technologies are used to build this API.
 	6. Jackson for JSON data 
 
 
-How to run API ?  Prerequisite
+How to run API & Test Service ?  Prerequisite
 -----------
 
 	1. Java 8
 	2. Maven 3.x
-	3. Postman Rest client to test api
+	3. Postman Rest client to test rest service.
 
 
 
@@ -36,14 +36,9 @@ Level Money Get All Transactions need user id, api token & token for authenticat
 	apitoken=AppTokenForInterview
 	token=D3BB69420805C10AB852B2625D481105
 
-Go to project directory and execute below command to start api :
+Go to project directory and execute below command to start api : - **mvn spring-boot:run**
 
 
-	- **mvn spring-boot:run**
-
-	
-
- 
 Resources Accessible
 ---------------
 
@@ -67,9 +62,7 @@ Resources Accessible
                    2. http://localhost:8080/transactions/monthlysummary
                    3. Hit on Get button to retrieve monthly summary
                    4. Click on body tab to see Output (In JSON Format) 
-                  
-         				
-			  
+
 
     - **Get /transactions/predictedReport**  
 			  
