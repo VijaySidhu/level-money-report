@@ -4,9 +4,9 @@ Level Money Report API
 
 Level-Money-Report is a REST API that does the following:
 
-- Loads a user's transactions from the GetAllTransactions endpoint
-- Determines how much money the user spends and makes in each of the months for which we have data, and in the "average" month.
-- Generate predicted spending and income numbers for the rest of this month, in addition to previous month
+	
+	1. Determines how much money the user spends and makes in each of the months for which we have data, and in the "average" month.
+	2. Generate predicted spending and income numbers for the rest of this month, in addition to previous month
 
 
 Technology Stack 
@@ -14,7 +14,7 @@ Technology Stack
 Below open source technologies are used to build this API.
 
 	1. Java 8
-	2. Spring Frame Work
+	2. Spring Framework 4.3.2
 	3. Spring Boot
 	4. Maven 3
 	5. Embedded Tomcat Server in Spring Boot
@@ -36,9 +36,9 @@ Level Money Get All Transactions need user id, api token & token for authenticat
 	apitoken=AppTokenForInterview
 	token=D3BB69420805C10AB852B2625D481105
 
-Go to project directory and execute belo command to start api :
+Go to project directory and execute below command to start api :
 
-	mvn spring-boot:run
+	- **mvn spring-boot:run**
 
  
 Resources Accessible
@@ -63,13 +63,9 @@ Resources Accessible
                    1. Open POSTMAN Rest Client
                    2. http://localhost:8080/transactions/monthlysummary
                    3. Hit on Get button to retrieve monthly summary
-                   
-  
-                   
-  
-				   
-   Output Format :: API is returning output in JSON Format
-   				
+                   4. Click on body tab to see Output (In JSON Format) 
+                  
+         				
 			  
 
     - **Get /transactions/predictedReport**  
@@ -93,7 +89,6 @@ Resources Accessible
 			  1. Open POSTMAN Rest Client
 			  2. http://localhost:8080/transactions/predictedReport?yyyy=2016&mm=9 
 			  3. Hit on Get button to retrieve monthly summary
-			  
-   Output Format :: API is returning output in JSON Format
+			  4. Click on body tab to see Output (In JSON Format)
+   
   				   
-
