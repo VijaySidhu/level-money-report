@@ -15,7 +15,7 @@ import com.capitaloneinvesting.model.Transaction;
 import com.capitaloneinvesting.ui.model.DisplayTransaction;
 
 /**
- * Utility Class to Process Transaction and Formatting
+ * This class has business logic that calculate spent,income & average
  * 
  * @author VijaySidhu
  *

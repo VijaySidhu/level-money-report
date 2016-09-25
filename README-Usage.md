@@ -31,10 +31,11 @@ How to run API ?  Prerequisite
 
 Level Money Get All Transactions need user id, api token & token for authentication. Below properties are configured in application.properties file, please change values if you need to run with different values
 
-uid=1110590645
-apitoken=AppTokenForInterview
-token=D3BB69420805C10AB852B2625D481105
-Go to project directory and execute command : mvn spring-boot:run
+	uid=1110590645
+	apitoken=AppTokenForInterview
+	token=D3BB69420805C10AB852B2625D481105
+
+Go to project directory and execute command to start api :  mvn spring-boot:run
 
  
 Resources Accessible

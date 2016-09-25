@@ -1,5 +1,4 @@
 build
-.log
 *.iml
 *.mvn
 *.ipr
