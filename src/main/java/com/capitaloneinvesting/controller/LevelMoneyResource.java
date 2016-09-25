@@ -61,7 +61,7 @@ public class LevelMoneyResource {
 
 	@GetMapping
 	@RequestMapping("/predictedReport")
-	public @ResponseBody Map<String, DisplayTransaction> predictedReport(@RequestParam(value = "crystalBal", defaultValue = "true") boolean crystalBal, @RequestParam(value = "yyyy", required = true) int yyyy, @RequestParam(value = "mm", required = true) int mm, @RequestParam(value = "ignoreDonuts", defaultValue = "true") boolean ignoreDonuts) throws SystemException {
+	public @ResponseBody Map<String, DisplayTransaction> predictedReport(@RequestParam(value = "yyyy", required = true) int yyyy, @RequestParam(value = "mm", required = true) int mm, @RequestParam(value = "ignoreDonuts", defaultValue = "true") boolean ignoreDonuts) throws SystemException {
 		Map<String, DisplayTransaction> txnsMap = null;
 		ResponseWrapper projectedTransactionRes = null;
 		ResponseWrapper mergedResponse = null;

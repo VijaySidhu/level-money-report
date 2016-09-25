@@ -53,8 +53,11 @@ Resources Accessible
 
 - Request Parameter
 
-	-- Parameter	Type	Default	Description   Required
-	     boolean         true     ignoreDonut     No
+ 		ParameterType :: boolean
+ 		ParameterName :: ignoreDonuts
+ 		Default       :: true
+ 		Description   :: Switch to ignore donut transactions by default API ignores donut transactions but switch is provided as parameter in case if user want to add donut transaction later set ignoreDonuts to false
+ 		Required      :: No
 
 
                    1. Open POSTMAN Rest Client
@@ -73,11 +76,18 @@ Resources Accessible
 			  
 - Generate predicted spending and income numbers for the rest of this month, in addition to previous month
 
-- Request Parameter
+- Request Parameters
 
-	Parameter	Type	Default	  Description         Required
-	 int             yyyy     Year(4 digits)         Yes
-	 int             mm       mm (2 digits)          Yes
+   ParameterType :: int
+   ParameterName :: yyyy
+   Description   :: Year in four digits
+   Required      :: Yes
+   
+   ParameterType :: int
+   ParameterName :: mm
+   Description   :: Month in two digits
+   Required      :: Yes
+	 
 
 			  
 			  1. Open POSTMAN Rest Client
