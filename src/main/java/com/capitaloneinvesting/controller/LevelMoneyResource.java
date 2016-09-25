@@ -69,7 +69,7 @@ public class LevelMoneyResource {
 			logger.info("Loading Transactions ignoreDonuts is set to ::" + ignoreDonuts);
 			projectedTransactionRes = transactionService.getProjectedTransactions(yyyy, mm, ignoreDonuts);
 			if (null != allTransactions && null != allTransactions.getTransactions() && allTransactions.getTransactions().size() > 0) {
-				transactionService.mergeProjectedWithAllTransactions(allTransactions.getTransactions(), projectedTransactionRes.getTransactions());
+				mergedResponse=transactionService.mergeProjectedWithAllTransactions(allTransactions.getTransactions(), projectedTransactionRes.getTransactions());
 			} else {
 				/**
 				 * Get All Transactions if null
