@@ -26,7 +26,8 @@ Level Money Get All Transactions need user id, api token & token for authenticat
 	apitoken=AppTokenForInterview
 	token=D3BB69420805C10AB852B2625D481105
 
-Go to project directory and execute below command to start api : - **mvn spring-boot:run**
+Go to project directory and execute below command to start api : - **mvn clean install**
+																 - **mvn spring-boot:run**
 
 
 Resources Accessible
