@@ -1,11 +1,16 @@
 package com.capitaloneinvesting.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Transaction Returned from Level Money API
+ * 
  * @author VijaySidhu
  *
  */
@@ -114,21 +119,13 @@ public class Transaction {
 	}
 
 	public String getTransactionTime() {
-		return format(transactionTime);
+		return transactionTime;
 	}
 
 	public void setTransactionTime(String transactionTime) {
 		this.transactionTime = transactionTime;
 	}
 
-	private String format(String transactionTime) {
-		String[] entries = transactionTime.split("-");
-		int year = Integer.parseInt(entries[0]);
-		int month = Integer.parseInt(entries[1]);
-		String printedYearMonth = String.valueOf(year) + "-" + month;
-		return printedYearMonth;
-
-	}
 
 	@Override
 	public String toString() {

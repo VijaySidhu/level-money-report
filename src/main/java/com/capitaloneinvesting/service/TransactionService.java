@@ -6,8 +6,13 @@ import com.capitaloneinvesting.ui.model.DisplayTransaction;
 
 public interface TransactionService {
 
-	//public void process(InputStream inputStream) throws Exception;
-
-	public Map<String, DisplayTransaction> loadTransactions(boolean ignoreDonuts) throws Exception;
+	/**
+	 * Get All Transaction from level money API
+	 * 
+	 * @param ignoreDonuts
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String, DisplayTransaction> getAllTransactions(boolean ignoreDonuts) throws Exception;
 
 }

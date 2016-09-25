@@ -21,17 +21,26 @@ import com.capitaloneinvesting.ui.model.DisplayTransaction;
 public class LevelMoneyResource {
 
 	@Autowired
-	TransactionService transactionService;
+	private TransactionService transactionService;
 
 	private static final Logger logger = LoggerFactory.getLogger(LevelMoneyResource.class);
 
+	/**
+	 * Below method load all transactions from level money and by default it
+	 * ignores donut transactions
+	 * 
+	 * @param ignoreDonuts
+	 *            is optional default value is true if set to false it will
+	 *            include donut transaction as well
+	 * @return JSON response of spent and income by month
+	 */
 	@GetMapping
 	@RequestMapping("/monthlysummary")
-	public @ResponseBody Map<String, DisplayTransaction> findMonthlySummary(@RequestParam(value = "ignoreDonuts", required = true, defaultValue = "true") boolean ignoreDonuts) throws SystemException {
+	public @ResponseBody Map<String, DisplayTransaction> findMonthlySummary(@RequestParam(value = "ignoreDonuts", defaultValue = "true") boolean ignoreDonuts) throws SystemException {
 		Map<String, DisplayTransaction> txnsMap = null;
 		try {
 			logger.info("Loading Transactions ignoreDonuts is set to ::" + ignoreDonuts);
-			txnsMap = transactionService.loadTransactions(ignoreDonuts);
+			txnsMap = transactionService.getAllTransactions(ignoreDonuts);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			SystemException systemException = new SystemException(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "Internal System Error");

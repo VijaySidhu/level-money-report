@@ -1,14 +1,15 @@
 package com.capitaloneinvesting.utilities;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.capitaloneinvesting.model.ResponseWrapper;
 import com.capitaloneinvesting.model.Transaction;
 import com.capitaloneinvesting.ui.model.DisplayTransaction;
@@ -32,6 +33,7 @@ public class Utilities {
 			long totalSpent = 0, totalIncome = 0;
 			long totalSpentTransactionsCount = 0, totalIncomeTransactionsCount = 0;
 			for (Transaction transaction : allTransactionsList) {
+				transaction.setTransactionTime(format(transaction.getTransactionTime()));
 				logger.info(transaction.toString());
 				DisplayTransaction displayTransaction;
 				if (displayTransactionsMap.containsKey(transaction.getTransactionTime())) {
@@ -97,6 +99,20 @@ public class Utilities {
 	private static boolean isDonutsSpending(Transaction transaction) {
 		boolean isDonut = transaction != null && (transaction.getMerchant().equalsIgnoreCase("Krispy Kreme Donuts") || transaction.getMerchant().equalsIgnoreCase("DUNKIN #336784"));
 		return isDonut;
+	}
+
+	private static String format(String transactionTime) {
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM");
+		String dts = null;
+		try {
+			Date dt = sf.parse(transactionTime);
+			SimpleDateFormat sfs = new SimpleDateFormat("yyyy-MM");
+			dts = sfs.format(dt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return dts;
+
 	}
 
 }

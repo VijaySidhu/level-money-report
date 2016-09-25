@@ -5,35 +5,57 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
 import com.capitaloneinvesting.model.ResponseWrapper;
-import com.capitaloneinvesting.service.helper.PostEntity;
 import com.capitaloneinvesting.ui.model.DisplayTransaction;
 import com.capitaloneinvesting.utilities.Utilities;
 
 @Component
 public class TransactionServiceImpl implements TransactionService {
 
-	@Autowired
-	RestTemplate restTemplate;
+	@Value("${uid}")
+	private String uid;
+
+	@Value("${apitoken}")
+	private String apiToken;
+
+	@Value("${token}")
+	private String token;
+
+	@Value("${url}")
+	private String url;
+
+	@Value("${jsonstrictmode}")
+	private String jsonStrictMode;
+
+	@Value("${jsonverbosemode}")
+	private String jsonVerboseMode;
 
 	@Autowired
-	PostEntity postEntity;
+	private RestTemplate restTemplate;
+
+	private Map<String, DisplayTransaction> transaction;
 
 	private static final Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
 	@Override
-	public Map<String, DisplayTransaction> loadTransactions(boolean ignoreDonuts) throws Exception {
-		Map<String, DisplayTransaction> transaction = null;
+	public Map<String, DisplayTransaction> getAllTransactions(boolean ignoreDonuts) throws Exception {
 		logger.info("Calling Level Money API get-all-transactions");
-		ResponseWrapper res = restTemplate.postForObject(postEntity.getUrl(), postEntity.toString(), ResponseWrapper.class);
+		ResponseWrapper res = restTemplate.postForObject(url, this.toString(), ResponseWrapper.class);
 		if ("no-error".equals(res.getError())) {
 			transaction = Utilities.getTransactionsToDisplay(res, ignoreDonuts);
 		} else {
 			logger.error("Error while calling Level Money REST API::" + res.getError());
 		}
 		return transaction;
+	}
+
+	@Override
+	public String toString() {
+		return "{\"args\": {\"uid\": " + uid + ", \"token\": \"" + token + "\", \"api-token\": \"" + apiToken + "\", \"json-strict-mode\": " + jsonStrictMode + ", \"json-verbose-response\": " + jsonVerboseMode + "}}";
 	}
 
 }
