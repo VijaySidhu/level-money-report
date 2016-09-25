@@ -21,8 +21,9 @@ public class ResponseWrapper {
 		return transactions;
 	}
 
-	public void addTransactions(List<Transaction> transactions) {
-		this.transactions.addAll(transactions);
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
 	}
+
 
 }

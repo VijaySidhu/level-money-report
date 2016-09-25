@@ -64,11 +64,12 @@ public class LevelMoneyResource {
 	public @ResponseBody Map<String, DisplayTransaction> predictedReport(@RequestParam(value = "crystalBal", defaultValue = "true") boolean crystalBal, @RequestParam(value = "yyyy", required = true) int yyyy, @RequestParam(value = "mm", required = true) int mm, @RequestParam(value = "ignoreDonuts", defaultValue = "true") boolean ignoreDonuts) throws SystemException {
 		Map<String, DisplayTransaction> txnsMap = null;
 		ResponseWrapper projectedTransactionRes = null;
+		ResponseWrapper mergedResponse = null;
 		try {
 			logger.info("Loading Transactions ignoreDonuts is set to ::" + ignoreDonuts);
-			projectedTransactionRes = transactionService.getProjectTransactions(yyyy, mm, ignoreDonuts);
+			projectedTransactionRes = transactionService.getProjectedTransactions(yyyy, mm, ignoreDonuts);
 			if (null != allTransactions && null != allTransactions.getTransactions() && allTransactions.getTransactions().size() > 0) {
-				allTransactions.addTransactions(projectedTransactionRes.getTransactions());
+				transactionService.mergeProjectedWithAllTransactions(allTransactions.getTransactions(), projectedTransactionRes.getTransactions());
 			} else {
 				/**
 				 * Get All Transactions if null
@@ -77,10 +78,10 @@ public class LevelMoneyResource {
 				/**
 				 * Merge Projected Transactions with all transactions
 				 */
-				allTransactions.addTransactions(projectedTransactionRes.getTransactions());
+				mergedResponse = transactionService.mergeProjectedWithAllTransactions(allTransactions.getTransactions(), projectedTransactionRes.getTransactions());
 			}
 			if (projectedTransactionRes != null) {
-				txnsMap = transactionService.processTransactions(projectedTransactionRes, ignoreDonuts);
+				txnsMap = transactionService.processTransactions(mergedResponse, ignoreDonuts);
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

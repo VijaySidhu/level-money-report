@@ -1,15 +1,16 @@
 package com.capitaloneinvesting.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.capitaloneinvesting.model.ResponseWrapper;
+import com.capitaloneinvesting.model.Transaction;
 import com.capitaloneinvesting.ui.model.DisplayTransaction;
 
 public interface TransactionService {
 
 	/**
 	 * Get All Transaction from level money API
-	 * 
 	 * @param ignoreDonuts
 	 * @return
 	 * @throws Exception
@@ -20,8 +21,10 @@ public interface TransactionService {
 	 * --CyrstalBal Get project transaction for given month from level money
 	 */
 
-	public ResponseWrapper getProjectTransactions(int year, int month,boolean ignoreDonuts) throws Exception;
-	
+	public ResponseWrapper getProjectedTransactions(int year, int month, boolean ignoreDonuts) throws Exception;
+
+	public ResponseWrapper mergeProjectedWithAllTransactions(List<Transaction> allTxns, List<Transaction> projectedTxns) throws Exception;
+
 	public Map<String, DisplayTransaction> processTransactions(ResponseWrapper response, boolean ignoreDonuts);
 
 }
