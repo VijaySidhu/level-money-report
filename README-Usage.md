@@ -6,19 +6,9 @@ Level-Money-Report is a REST API that does the following:
 
 	
 	1. Determines how much money the user spends and makes in each of the months for which we have data, and in the "average" month.
-	2. Generate predicted spending and income numbers for the rest of this month, in addition to previous month
+	2. Generate predicted spending and income numbers for the rest of this month, in addition to previous month (Crystal Ball)
+	3. Ignore CC payments from spent and income (Ignore Credit Card payoff)
 
-
-Technology Stack 
----------
-Below open source technologies are used to build this API.
-
-	1. Java 8
-	2. Spring Framework 4.3.2
-	3. Spring Boot
-	4. Maven 3
-	5. Embedded Tomcat Server in Spring Boot
-	6. Jackson for JSON data 
 
 
 How to run API & Test Service ?  Prerequisite
@@ -89,5 +79,19 @@ ParameterType :: boolean
 			  2. http://localhost:8080/transactions/predictedReport?ignore-donuts=true
 			  3. Hit on Get button to retrieve monthly summary
 			  4. Click on body tab to see Output (In JSON Format)
+			  
+			  
+	
+
+Technology Stack 
+---------
+Below open source technologies are used to build this API.
+
+	1. Java 8
+	2. Spring Framework 4.3.2
+	3. Spring Boot
+	4. Maven 3
+	5. Embedded Tomcat Server in Spring Boot
+	6. Jackson for JSON data 
    
   				   
