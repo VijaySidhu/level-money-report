@@ -65,7 +65,7 @@ public class Businesslogic {
 			/**
 			 * Calculate Average
 			 */
-			DisplayTransaction ds = calculateAvergate(totalSpent, totalIncome, totalSpentTransactionsCount, totalIncomeTransactionsCount);
+			DisplayTransaction ds = calculateAverage(totalSpent, totalIncome, totalSpentTransactionsCount, totalIncomeTransactionsCount);
 			/**
 			 * Add Average Object to map
 			 */
@@ -76,7 +76,7 @@ public class Businesslogic {
 		return null;
 	}
 
-	private static DisplayTransaction calculateAvergate(long totalSpent, long totalIncome, long totalSpentTransactionsCount, long totalIncomeTransactionsCount) {
+	private static DisplayTransaction calculateAverage(long totalSpent, long totalIncome, long totalSpentTransactionsCount, long totalIncomeTransactionsCount) {
 		long avgSpent = totalSpent / totalSpentTransactionsCount;
 		long avgIncome = totalIncome / totalIncomeTransactionsCount;
 		DisplayTransaction ds = new DisplayTransaction(avgSpent, avgIncome);
@@ -91,16 +91,28 @@ public class Businesslogic {
 		displayTransaction.setIncome(income);
 	}
 
+	/**
+	 * format currency
+	 * @param spent
+	 * @param currentLocale
+	 * @return
+	 */
 	private static String formatCurrency(long spent, Locale currentLocale) {
 		NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(currentLocale);
 		return currencyFormatter.format(spent);
 	}
 
 	private static boolean isDonutsSpending(Transaction transaction) {
-		boolean isDonut = transaction != null && (transaction.getMerchant().equalsIgnoreCase("Krispy Kreme Donuts") || transaction.getMerchant().equalsIgnoreCase("DUNKIN #336784"));
+		boolean isDonut = transaction != null && (transaction.getMerchant().equalsIgnoreCase("Krispy Kreme Donuts") || transaction.getMerchant().contains("DUNKIN"));
 		return isDonut;
 	}
 
+	/**
+	 * Date formatter
+	 * 
+	 * @param transactionTime
+	 * @return
+	 */
 	private static String format(String transactionTime) {
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM");
 		String dts = null;
