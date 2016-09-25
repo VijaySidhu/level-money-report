@@ -1,4 +1,6 @@
 build
+level-money-report.log
+*.log
 *.iml
 *.mvn
 *.ipr
