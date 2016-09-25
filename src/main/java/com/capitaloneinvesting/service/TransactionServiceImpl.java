@@ -28,6 +28,9 @@ public class TransactionServiceImpl implements TransactionService {
 	@Value("${url}")
 	private String url;
 
+	@Value("${url.projected.transactions}")
+	private String urlProjectedTxns;
+
 	@Value("${jsonstrictmode}")
 	private String jsonStrictMode;
 
@@ -37,19 +40,35 @@ public class TransactionServiceImpl implements TransactionService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	private Map<String, DisplayTransaction> transaction;
-
 	private static final Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
 	@Override
-	public Map<String, DisplayTransaction> getAllTransactions(boolean ignoreDonuts) throws Exception {
+	public ResponseWrapper getAllTransactions(boolean ignoreDonuts) throws Exception {
 		logger.info("Calling Level Money API get-all-transactions");
 		ResponseWrapper res = restTemplate.postForObject(url, this.toString(), ResponseWrapper.class);
 		if ("no-error".equals(res.getError())) {
-			transaction = Businesslogic.getTransactionsToDisplay(res, ignoreDonuts);
+			logger.info("Retrieved API all transactions");
 		} else {
 			logger.error("Error while calling Level Money REST API::" + res.getError());
 		}
+		return res;
+	}
+
+	@Override
+	public ResponseWrapper getProjectTransactions(int year, int month, boolean ignoreDonuts) throws Exception {
+		logger.info("Calling Level Money API projected-transactions-for-month");
+		ResponseWrapper res = restTemplate.postForObject(urlProjectedTxns, this.toString(), ResponseWrapper.class);
+		if ("no-error".equals(res.getError())) {
+			logger.info("Retrieved API projected-transactions-for-month");
+		} else {
+			logger.error("Error while calling Level Money REST API::" + res.getError());
+		}
+		return res;
+	}
+
+	@Override
+	public Map<String, DisplayTransaction> processTransactions(ResponseWrapper response, boolean ignoreDonuts) {
+		Map<String, DisplayTransaction> transaction = Businesslogic.getTransactionsToDisplay(response, ignoreDonuts);
 		return transaction;
 	}
 

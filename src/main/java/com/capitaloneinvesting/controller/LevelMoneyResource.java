@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capitaloneinvesting.exceptions.SystemException;
+import com.capitaloneinvesting.model.ResponseWrapper;
 import com.capitaloneinvesting.service.TransactionService;
 import com.capitaloneinvesting.ui.model.DisplayTransaction;
 
@@ -22,6 +23,8 @@ public class LevelMoneyResource {
 
 	@Autowired
 	private TransactionService transactionService;
+
+	ResponseWrapper allTransactions = null;
 
 	private static final Logger logger = LoggerFactory.getLogger(LevelMoneyResource.class);
 
@@ -37,10 +40,48 @@ public class LevelMoneyResource {
 	@GetMapping
 	@RequestMapping("/monthlysummary")
 	public @ResponseBody Map<String, DisplayTransaction> findMonthlySummary(@RequestParam(value = "ignoreDonuts", defaultValue = "true") boolean ignoreDonuts) throws SystemException {
+
 		Map<String, DisplayTransaction> txnsMap = null;
 		try {
 			logger.info("Loading Transactions ignoreDonuts is set to ::" + ignoreDonuts);
-			txnsMap = transactionService.getAllTransactions(ignoreDonuts);
+			allTransactions = transactionService.getAllTransactions(ignoreDonuts);
+			/**
+			 * Process All Transaction
+			 */
+			if (allTransactions != null) {
+				txnsMap = transactionService.processTransactions(allTransactions, ignoreDonuts);
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			SystemException systemException = new SystemException(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "Internal System Error");
+			throw systemException;
+		}
+		return txnsMap;
+	}
+
+	@GetMapping
+	@RequestMapping("/predictedReport")
+	public @ResponseBody Map<String, DisplayTransaction> predictedReport(@RequestParam(value = "crystalBal", defaultValue = "true") boolean crystalBal, @RequestParam(value = "yyyy", required = true) int yyyy, @RequestParam(value = "mm", required = true) int mm, @RequestParam(value = "ignoreDonuts", defaultValue = "true") boolean ignoreDonuts) throws SystemException {
+		Map<String, DisplayTransaction> txnsMap = null;
+		ResponseWrapper projectedTransactionRes = null;
+		try {
+			logger.info("Loading Transactions ignoreDonuts is set to ::" + ignoreDonuts);
+			projectedTransactionRes = transactionService.getProjectTransactions(yyyy, mm, ignoreDonuts);
+			if (null != allTransactions && null != allTransactions.getTransactions() && allTransactions.getTransactions().size() > 0) {
+				allTransactions.addTransactions(projectedTransactionRes.getTransactions());
+			} else {
+				/**
+				 * Get All Transactions if null
+				 */
+				allTransactions = transactionService.getAllTransactions(ignoreDonuts);
+				/**
+				 * Merge Projected Transactions with all transactions
+				 */
+				allTransactions.addTransactions(projectedTransactionRes.getTransactions());
+			}
+			if (projectedTransactionRes != null) {
+				txnsMap = transactionService.processTransactions(projectedTransactionRes, ignoreDonuts);
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			SystemException systemException = new SystemException(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "Internal System Error");

@@ -4,9 +4,9 @@ import java.util.List;
 import com.capitaloneinvesting.model.Transaction;
 
 public class ResponseWrapper {
-	
+
 	private String error;
-	
+
 	private List<Transaction> transactions;
 
 	public String getError() {
@@ -21,8 +21,8 @@ public class ResponseWrapper {
 		return transactions;
 	}
 
-	public void setTransactions(List<Transaction> transactions) {
-		this.transactions = transactions;
+	public void addTransactions(List<Transaction> transactions) {
+		this.transactions.addAll(transactions);
 	}
 
 }

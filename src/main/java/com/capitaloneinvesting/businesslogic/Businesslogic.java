@@ -77,8 +77,14 @@ public class Businesslogic {
 	}
 
 	private static DisplayTransaction calculateAverage(long totalSpent, long totalIncome, long totalSpentTransactionsCount, long totalIncomeTransactionsCount) {
-		long avgSpent = totalSpent / totalSpentTransactionsCount;
-		long avgIncome = totalIncome / totalIncomeTransactionsCount;
+		long avgSpent = 0;
+		long avgIncome = 0;
+		if (0 != totalSpentTransactionsCount) {
+			avgSpent = totalSpent / totalSpentTransactionsCount;
+		}
+		if (0 != totalIncomeTransactionsCount) {
+			avgIncome = totalIncome / totalIncomeTransactionsCount;
+		}
 		DisplayTransaction ds = new DisplayTransaction(avgSpent, avgIncome);
 		formatTransaction(ds);
 		return ds;
@@ -93,6 +99,7 @@ public class Businesslogic {
 
 	/**
 	 * format currency
+	 * 
 	 * @param spent
 	 * @param currentLocale
 	 * @return
