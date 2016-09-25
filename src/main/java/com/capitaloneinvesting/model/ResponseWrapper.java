@@ -1,7 +1,6 @@
 package com.capitaloneinvesting.model;
 
 import java.util.List;
-import com.capitaloneinvesting.model.Transaction;
 
 public class ResponseWrapper {
 
@@ -24,6 +23,5 @@ public class ResponseWrapper {
 	public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
 	}
-
 
 }

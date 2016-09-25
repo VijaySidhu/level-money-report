@@ -8,8 +8,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.capitaloneinvesting.model.ResponseWrapper;
 import com.capitaloneinvesting.model.Transaction;
 import com.capitaloneinvesting.ui.model.DisplayTransaction;
@@ -24,7 +26,7 @@ public class Businesslogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(Businesslogic.class);
 
-	public static Map<String, DisplayTransaction> getTransactionsToDisplay(ResponseWrapper responseObj, boolean ignoreDonuts) {
+	public static Map<String, DisplayTransaction> getTransactionsToDisplay(ResponseWrapper responseObj, boolean ignoreDonuts, boolean crystalBall) {
 		int donutTxnCounter = 0;
 		List<Transaction> allTransactionsList;
 		if (responseObj != null && responseObj.getTransactions() != null && responseObj.getTransactions().size() > 0) {
@@ -33,6 +35,12 @@ public class Businesslogic {
 			long totalSpent = 0, totalIncome = 0;
 			long totalSpentTransactionsCount = 0, totalIncomeTransactionsCount = 0;
 			for (Transaction transaction : allTransactionsList) {
+				if (crystalBall) {
+					boolean isCreditCardPayment = isCreditCardPayment(allTransactionsList, transaction);
+					if (true == isCreditCardPayment) {
+						continue;
+					}
+				}
 				transaction.setTransactionTime(format(transaction.getTransactionTime()));
 				logger.info(transaction.toString());
 				DisplayTransaction displayTransaction;
@@ -51,12 +59,16 @@ public class Businesslogic {
 				} else {
 					long spent = displayTransaction.getSpentLong();
 					long amount = transaction.getAmount();
-					if (!(isDonutsSpending(transaction) && ignoreDonuts)) {
+					/**
+					 * Ignore donut Spending if ignore-donut=true
+					 */
+					if (!isDonutsSpending(transaction, ignoreDonuts)) {
 						displayTransaction.setSpentLong(spent + Math.abs(amount));
 						totalSpent += Math.abs(transaction.getAmount());
 						totalSpentTransactionsCount++;
 					} else {
 						donutTxnCounter = donutTxnCounter + 1;
+						logger.info("Ignoring donut transaction ID ::" + transaction.getTransactionId() + "Donut Merchant Name" + transaction.getRawMerchant());
 					}
 				}
 				formatTransaction(displayTransaction);
@@ -109,9 +121,21 @@ public class Businesslogic {
 		return currencyFormatter.format(spent);
 	}
 
-	private static boolean isDonutsSpending(Transaction transaction) {
-		boolean isDonut = transaction != null && (transaction.getMerchant().equalsIgnoreCase("Krispy Kreme Donuts") || transaction.getMerchant().contains("DUNKIN"));
+	private static boolean isDonutsSpending(Transaction transaction, boolean ignoreDonuts) {
+		boolean isDonut = false;
+		if (true == ignoreDonuts) {
+			isDonut = transaction != null && (transaction.getMerchant().equalsIgnoreCase("Krispy Kreme Donuts") || transaction.getMerchant().contains("DUNKIN"));
+		}
 		return isDonut;
+	}
+
+	private static boolean isCreditCardPayment(List<Transaction> transaction, Transaction currentTxn) {
+		for (Transaction txn : transaction) {
+			if (0 == (txn.getAmount() + currentTxn.getAmount())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

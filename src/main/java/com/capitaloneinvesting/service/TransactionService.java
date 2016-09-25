@@ -11,20 +11,21 @@ public interface TransactionService {
 
 	/**
 	 * Get All Transaction from level money API
+	 * 
 	 * @param ignoreDonuts
 	 * @return
 	 * @throws Exception
 	 */
-	public ResponseWrapper getAllTransactions(boolean ignoreDonuts) throws Exception;
+	public ResponseWrapper getAllTransactions() throws Exception;
 
 	/**
 	 * --CyrstalBal Get project transaction for given month from level money
 	 */
 
-	public ResponseWrapper getProjectedTransactions(int year, int month, boolean ignoreDonuts) throws Exception;
+	public ResponseWrapper getProjectedTransactions(int year, int month) throws Exception;
 
 	public ResponseWrapper mergeProjectedWithAllTransactions(List<Transaction> allTxns, List<Transaction> projectedTxns) throws Exception;
 
-	public Map<String, DisplayTransaction> processTransactions(ResponseWrapper response, boolean ignoreDonuts);
+	public Map<String, DisplayTransaction> processTransactions(ResponseWrapper response, boolean ignoreDonuts, boolean crystalBall);
 
 }

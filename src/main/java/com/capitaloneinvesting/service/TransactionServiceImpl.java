@@ -46,7 +46,7 @@ public class TransactionServiceImpl implements TransactionService {
 	private static final Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
 	@Override
-	public ResponseWrapper getAllTransactions(boolean ignoreDonuts) throws Exception {
+	public ResponseWrapper getAllTransactions() throws Exception {
 		logger.info("Calling Level Money API get-all-transactions");
 		ResponseWrapper res = restTemplate.postForObject(url, this.toString(), ResponseWrapper.class);
 		if ("no-error".equals(res.getError())) {
@@ -58,7 +58,7 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public ResponseWrapper getProjectedTransactions(int year, int month, boolean ignoreDonuts) throws Exception {
+	public ResponseWrapper getProjectedTransactions(int year, int month) throws Exception {
 		logger.info("Calling Level Money API projected-transactions-for-month");
 		ResponseWrapper res = restTemplate.postForObject(urlProjectedTxns, this.toString(), ResponseWrapper.class);
 		if ("no-error".equals(res.getError())) {
@@ -70,8 +70,8 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public Map<String, DisplayTransaction> processTransactions(ResponseWrapper response, boolean ignoreDonuts) {
-		Map<String, DisplayTransaction> transaction = Businesslogic.getTransactionsToDisplay(response, ignoreDonuts);
+	public Map<String, DisplayTransaction> processTransactions(ResponseWrapper response, boolean ignoreDonuts, boolean crystallBall) {
+		Map<String, DisplayTransaction> transaction = Businesslogic.getTransactionsToDisplay(response, ignoreDonuts, crystallBall);
 		return transaction;
 	}
 

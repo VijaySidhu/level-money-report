@@ -16,6 +16,7 @@ import com.capitaloneinvesting.exceptions.SystemException;
 import com.capitaloneinvesting.model.ResponseWrapper;
 import com.capitaloneinvesting.service.TransactionService;
 import com.capitaloneinvesting.ui.model.DisplayTransaction;
+import com.capitaloneinvesting.utils.DateUtils;
 
 @RestController
 @RequestMapping("/transactions")
@@ -39,17 +40,17 @@ public class LevelMoneyResource {
 	 */
 	@GetMapping
 	@RequestMapping("/monthlysummary")
-	public @ResponseBody Map<String, DisplayTransaction> findMonthlySummary(@RequestParam(value = "ignoreDonuts", defaultValue = "true") boolean ignoreDonuts) throws SystemException {
+	public @ResponseBody Map<String, DisplayTransaction> findMonthlySummary(@RequestParam(value = "ignore-donuts", defaultValue = "true") boolean ignoreDonuts, @RequestParam(value = "crystal-ball", defaultValue = "true") boolean crystalball) throws SystemException {
 
 		Map<String, DisplayTransaction> txnsMap = null;
 		try {
 			logger.info("Loading Transactions ignoreDonuts is set to ::" + ignoreDonuts);
-			allTransactions = transactionService.getAllTransactions(ignoreDonuts);
+			allTransactions = transactionService.getAllTransactions();
 			/**
 			 * Process All Transaction
 			 */
 			if (allTransactions != null) {
-				txnsMap = transactionService.processTransactions(allTransactions, ignoreDonuts);
+				txnsMap = transactionService.processTransactions(allTransactions, ignoreDonuts, crystalball);
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -61,27 +62,27 @@ public class LevelMoneyResource {
 
 	@GetMapping
 	@RequestMapping("/predictedReport")
-	public @ResponseBody Map<String, DisplayTransaction> predictedReport(@RequestParam(value = "yyyy", required = true) int yyyy, @RequestParam(value = "mm", required = true) int mm, @RequestParam(value = "ignoreDonuts", defaultValue = "true") boolean ignoreDonuts) throws SystemException {
+	public @ResponseBody Map<String, DisplayTransaction> predictedReport(@RequestParam(value = "ignore-donuts", defaultValue = "true") boolean ignoreDonuts) throws SystemException {
 		Map<String, DisplayTransaction> txnsMap = null;
 		ResponseWrapper projectedTransactionRes = null;
 		ResponseWrapper mergedResponse = null;
 		try {
 			logger.info("Loading Transactions ignoreDonuts is set to ::" + ignoreDonuts);
-			projectedTransactionRes = transactionService.getProjectedTransactions(yyyy, mm, ignoreDonuts);
+			projectedTransactionRes = transactionService.getProjectedTransactions(DateUtils.getCurrentYear(), DateUtils.getCurrentMonth());
 			if (null != allTransactions && null != allTransactions.getTransactions() && allTransactions.getTransactions().size() > 0) {
-				mergedResponse=transactionService.mergeProjectedWithAllTransactions(allTransactions.getTransactions(), projectedTransactionRes.getTransactions());
+				mergedResponse = transactionService.mergeProjectedWithAllTransactions(allTransactions.getTransactions(), projectedTransactionRes.getTransactions());
 			} else {
 				/**
 				 * Get All Transactions if null
 				 */
-				allTransactions = transactionService.getAllTransactions(ignoreDonuts);
+				allTransactions = transactionService.getAllTransactions();
 				/**
 				 * Merge Projected Transactions with all transactions
 				 */
 				mergedResponse = transactionService.mergeProjectedWithAllTransactions(allTransactions.getTransactions(), projectedTransactionRes.getTransactions());
 			}
 			if (projectedTransactionRes != null) {
-				txnsMap = transactionService.processTransactions(mergedResponse, ignoreDonuts);
+				txnsMap = transactionService.processTransactions(mergedResponse, ignoreDonuts, false);
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

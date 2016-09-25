@@ -122,7 +122,6 @@ public class Transaction {
 		this.transactionTime = transactionTime;
 	}
 
-
 	@Override
 	public String toString() {
 		ReflectionToStringBuilder builder = new ReflectionToStringBuilder(this);

@@ -50,5 +50,4 @@ public class DisplayTransaction {
 		this.income = income;
 	}
 
-	
 }

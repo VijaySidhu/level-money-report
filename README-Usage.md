@@ -52,14 +52,20 @@ Resources Accessible
 - Request Parameter
 
  		ParameterType :: boolean
- 		ParameterName :: ignoreDonuts
+ 		ParameterName :: ignore-donuts
+ 		Default       :: true
+ 		Description   :: Switch to ignore donut transactions by default API ignores donut transactions but switch is provided as parameter in case if user want to add donut transaction later set ignoreDonuts to false
+ 		Required      :: No
+ 		
+ 		ParameterType :: boolean
+ 		ParameterName :: crystal-ball
  		Default       :: true
  		Description   :: Switch to ignore donut transactions by default API ignores donut transactions but switch is provided as parameter in case if user want to add donut transaction later set ignoreDonuts to false
  		Required      :: No
 
 
                    1. Open POSTMAN Rest Client
-                   2. http://localhost:8080/transactions/monthlysummary
+                   2. http://localhost:8080/transactions/monthlysummary?ignoreDonuts=true&&crystal-ball=true
                    3. Hit on Get button to retrieve monthly summary
                    4. Click on body tab to see Output (In JSON Format) 
 
@@ -70,20 +76,17 @@ Resources Accessible
 
 - Request Parameters
 
-   ParameterType :: int
-   ParameterName :: yyyy
-   Description   :: Year in four digits
-   Required      :: Yes
-   
-   ParameterType :: int
-   ParameterName :: mm
-   Description   :: Month in two digits
-   Required      :: Yes
+ParameterType :: boolean
+
+ 		ParameterName :: ignore-donuts
+ 		Default       :: true
+ 		Description   :: Switch to ignore donut transactions by default API ignores donut transactions but switch is provided as parameter in case if user want to add donut transaction later set ignoreDonuts to false
+ 		Required      :: No
 	 
 
 			  
 			  1. Open POSTMAN Rest Client
-			  2. http://localhost:8080/transactions/predictedReport?yyyy=2016&mm=9 
+			  2. http://localhost:8080/transactions/predictedReport?ignore-donuts=true
 			  3. Hit on Get button to retrieve monthly summary
 			  4. Click on body tab to see Output (In JSON Format)
    
