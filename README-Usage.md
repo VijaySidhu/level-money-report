@@ -38,7 +38,10 @@ Level Money Get All Transactions need user id, api token & token for authenticat
 
 Go to project directory and execute below command to start api :
 
+
 	- **mvn spring-boot:run**
+
+	
 
  
 Resources Accessible
@@ -49,7 +52,7 @@ Resources Accessible
 
 	- **Get /transactions/monthlysummary**  
 
-- Monthly Summary : Determines total money spent and income in each of the months for which we have data, and in the "average" month.
+		- **Monthly Summary : Determines total money spent and income in each of the months for which we have data, and in the "average" month.**
 
 - Request Parameter
 
@@ -70,7 +73,7 @@ Resources Accessible
 
     - **Get /transactions/predictedReport**  
 			  
-- Generate predicted spending and income numbers for the rest of this month, in addition to previous month
+		- **Generate predicted spending and income numbers for the rest of this month, in addition to previous month**
 
 - Request Parameters
 
