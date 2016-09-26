@@ -94,11 +94,6 @@ public class Businesslogic {
 			displayTransactionsMap.put("average", ds);
 			logger.info("");
 			logger.info("****************************************************************");
-			logger.info("Total Number of donut transactions ::" + donutTxnCounter);
-			logger.info("****************************************************************");
-			logger.info("");
-			logger.info("");
-			logger.info("****************************************************************");
 			logger.info("Total number of credit card payments :: " + totalCreditCardPayments);
 			logger.info("****************************************************************");
 			logger.info("");
@@ -146,7 +141,7 @@ public class Businesslogic {
 	private static boolean isDonutsSpending(Transaction transaction, boolean ignoreDonuts) {
 		boolean isDonut = false;
 		if (true == ignoreDonuts) {
-			isDonut = transaction != null && (transaction.getMerchant().equalsIgnoreCase("Krispy Kreme Donuts") || transaction.getMerchant().contains("DUNKIN"));
+			isDonut = transaction != null && (transaction.getMerchant().equalsIgnoreCase("Krispy Kreme Donuts") || transaction.getMerchant().equalsIgnoreCase("DUNKIN #336784"));
 		}
 		return isDonut;
 	}
