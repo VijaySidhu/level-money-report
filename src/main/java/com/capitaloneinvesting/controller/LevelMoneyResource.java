@@ -25,8 +25,6 @@ public class LevelMoneyResource {
 	@Autowired
 	private TransactionService transactionService;
 
-	ResponseWrapper allTransactions = null;
-
 	private static final Logger logger = LoggerFactory.getLogger(LevelMoneyResource.class);
 
 	/**
@@ -43,6 +41,7 @@ public class LevelMoneyResource {
 	public @ResponseBody Map<String, DisplayTransaction> findMonthlySummary(@RequestParam(value = "ignore-donuts", defaultValue = "true") boolean ignoreDonuts, @RequestParam(value = "ignore-cc-payments", defaultValue = "true") boolean ignoreCCPayment) throws SystemException {
 
 		Map<String, DisplayTransaction> txnsMap = null;
+		ResponseWrapper allTransactions = null;
 		try {
 			logger.info("Loading Transactions ignoreDonuts is set to ::" + ignoreDonuts);
 			allTransactions = transactionService.getAllTransactions();
@@ -66,21 +65,21 @@ public class LevelMoneyResource {
 		Map<String, DisplayTransaction> txnsMap = null;
 		ResponseWrapper projectedTransactionRes = null;
 		ResponseWrapper mergedResponse = null;
+		ResponseWrapper allTransactions = null;
 		try {
 			logger.info("Loading Transactions ignoreDonuts is set to ::" + ignoreDonuts);
+			/**
+			 * Get Projected Transactions
+			 */
 			projectedTransactionRes = transactionService.getProjectedTransactions(DateUtils.getCurrentYear(), DateUtils.getCurrentMonth());
-			if (null != allTransactions && null != allTransactions.getTransactions() && allTransactions.getTransactions().size() > 0) {
-				mergedResponse = transactionService.mergeProjectedWithAllTransactions(allTransactions.getTransactions(), projectedTransactionRes.getTransactions());
-			} else {
-				/**
-				 * Get All Transactions if null
-				 */
-				allTransactions = transactionService.getAllTransactions();
-				/**
-				 * Merge Projected Transactions with all transactions
-				 */
-				mergedResponse = transactionService.mergeProjectedWithAllTransactions(allTransactions.getTransactions(), projectedTransactionRes.getTransactions());
-			}
+			/**
+			 * Get All Transactions 
+			 */
+			allTransactions = transactionService.getAllTransactions();
+			/**
+			 * Merge Projected Transactions with all transactions
+			 */
+			mergedResponse = transactionService.mergeProjectedWithAllTransactions(allTransactions.getTransactions(), projectedTransactionRes.getTransactions());
 			if (projectedTransactionRes != null) {
 				txnsMap = transactionService.processTransactions(mergedResponse, ignoreDonuts, true, ignoreCCPayment);
 			}
