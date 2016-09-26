@@ -7,7 +7,7 @@ Level-Money-Report is a REST API that does the following:
 	
 	1. Determines how much money the user spends and makes in each of the months for which we have data, and in the "average" month.
 	2. Generate predicted spending and income numbers for the rest of this month, in addition to previous month (Crystal Ball)
-	3. Ignore CC payments from spent and income (Ignore Credit Card payoff)
+	3. Ignore CC payments from spent and income (Ignore Credit Card payoff). Total number of credit card payments are logged in level-money-report.log file
 
 
 

@@ -1,7 +1,5 @@
 package com.capitaloneinvesting.ui.model;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(value = { "spentLong", "incomeLong" })

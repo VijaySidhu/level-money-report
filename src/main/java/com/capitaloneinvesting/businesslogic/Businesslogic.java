@@ -29,16 +29,24 @@ public class Businesslogic {
 
 	public static Map<String, DisplayTransaction> getTransactionsToDisplay(ResponseWrapper responseObj, boolean ignoreDonuts, boolean crystalBall) {
 		int donutTxnCounter = 0;
+		int totalCreditCardPayments = 0;
 		List<Transaction> allTransactionsList;
 		if (responseObj != null && responseObj.getTransactions() != null && responseObj.getTransactions().size() > 0) {
 			allTransactionsList = responseObj.getTransactions();
 			Map<String, DisplayTransaction> displayTransactionsMap = new LinkedHashMap<>();
 			long totalSpent = 0, totalIncome = 0;
 			long totalSpentTransactionsCount = 0, totalIncomeTransactionsCount = 0;
+
 			for (Transaction transaction : allTransactionsList) {
 				if (crystalBall) {
 					boolean isCreditCardPayment = isCreditCardPayment(allTransactionsList, transaction);
 					if (true == isCreditCardPayment) {
+						totalCreditCardPayments = totalCreditCardPayments + 1;
+						logger.info("                                               ");
+						logger.info("*******Credit Card Payment detected************");
+						logger.info(transaction.toString());
+						logger.info("*******Credit Card Payment detected************");
+						logger.info("                                               ");
 						continue;
 					}
 				}
@@ -73,6 +81,7 @@ public class Businesslogic {
 					}
 				}
 				formatTransaction(displayTransaction);
+
 				displayTransactionsMap.put(transaction.getTransactionTime(), displayTransaction);
 			}
 			/**
@@ -83,9 +92,20 @@ public class Businesslogic {
 			 * Add Average Object to map
 			 */
 			displayTransactionsMap.put("average", ds);
+			logger.info("");
+			logger.info("****************************************************************");
 			logger.info("Total Number of donut transactions ::" + donutTxnCounter);
+			logger.info("****************************************************************");
+			logger.info("");
+			logger.info("");
+			logger.info("****************************************************************");
+			logger.info("Total number of credit card payments :: " + totalCreditCardPayments);
+			logger.info("****************************************************************");
+			logger.info("");
+
 			return displayTransactionsMap;
 		}
+
 		return null;
 	}
 
@@ -133,7 +153,7 @@ public class Businesslogic {
 
 	private static boolean isCreditCardPayment(List<Transaction> transaction, Transaction currentTxn) {
 		for (Transaction txn : transaction) {
-			if (0 == (txn.getAmount() + currentTxn.getAmount())) {
+			if (0 == (txn.getAmount() + currentTxn.getAmount()) && (("CREDIT CARD PAYMENT".equalsIgnoreCase(txn.getRawMerchant()) || "CC PAYMENT".equalsIgnoreCase(txn.getRawMerchant()) || ("CC PAYMENT".equalsIgnoreCase(txn.getMerchant())) || ("CREDIT CARD PAYMENT".equalsIgnoreCase(txn.getMerchant()))))) {
 				return true;
 			}
 		}
