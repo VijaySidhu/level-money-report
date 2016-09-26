@@ -1,5 +1,6 @@
 package com.capitaloneinvesting.businesslogic;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -117,8 +118,9 @@ public class Businesslogic {
 	 * @return
 	 */
 	private static String formatCurrency(long spent, Locale currentLocale) {
+		BigDecimal spentDoll = new BigDecimal(spent).movePointLeft(4);
 		NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(currentLocale);
-		return currencyFormatter.format(spent);
+		return currencyFormatter.format(spentDoll);
 	}
 
 	private static boolean isDonutsSpending(Transaction transaction, boolean ignoreDonuts) {
