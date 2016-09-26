@@ -40,7 +40,7 @@ public class LevelMoneyResource {
 	 */
 	@GetMapping
 	@RequestMapping("/monthlysummary")
-	public @ResponseBody Map<String, DisplayTransaction> findMonthlySummary(@RequestParam(value = "ignore-donuts", defaultValue = "true") boolean ignoreDonuts, @RequestParam(value = "crystal-ball", defaultValue = "true") boolean crystalball) throws SystemException {
+	public @ResponseBody Map<String, DisplayTransaction> findMonthlySummary(@RequestParam(value = "ignore-donuts", defaultValue = "true") boolean ignoreDonuts, @RequestParam(value = "ignore-cc-payments", defaultValue = "true") boolean ignoreCCPayment) throws SystemException {
 
 		Map<String, DisplayTransaction> txnsMap = null;
 		try {
@@ -50,7 +50,7 @@ public class LevelMoneyResource {
 			 * Process All Transaction
 			 */
 			if (allTransactions != null) {
-				txnsMap = transactionService.processTransactions(allTransactions, ignoreDonuts, crystalball);
+				txnsMap = transactionService.processTransactions(allTransactions, ignoreDonuts, true, ignoreCCPayment);
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -62,7 +62,7 @@ public class LevelMoneyResource {
 
 	@GetMapping
 	@RequestMapping("/predictedReport")
-	public @ResponseBody Map<String, DisplayTransaction> predictedReport(@RequestParam(value = "ignore-donuts", defaultValue = "true") boolean ignoreDonuts) throws SystemException {
+	public @ResponseBody Map<String, DisplayTransaction> predictedReport(@RequestParam(value = "ignore-donuts", defaultValue = "true") boolean ignoreDonuts, @RequestParam(value = "ignore-cc-payments", defaultValue = "true") boolean ignoreCCPayment) throws SystemException {
 		Map<String, DisplayTransaction> txnsMap = null;
 		ResponseWrapper projectedTransactionRes = null;
 		ResponseWrapper mergedResponse = null;
@@ -82,7 +82,7 @@ public class LevelMoneyResource {
 				mergedResponse = transactionService.mergeProjectedWithAllTransactions(allTransactions.getTransactions(), projectedTransactionRes.getTransactions());
 			}
 			if (projectedTransactionRes != null) {
-				txnsMap = transactionService.processTransactions(mergedResponse, ignoreDonuts, false);
+				txnsMap = transactionService.processTransactions(mergedResponse, ignoreDonuts, true, ignoreCCPayment);
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

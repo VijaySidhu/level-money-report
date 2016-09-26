@@ -26,6 +26,6 @@ public interface TransactionService {
 
 	public ResponseWrapper mergeProjectedWithAllTransactions(List<Transaction> allTxns, List<Transaction> projectedTxns) throws Exception;
 
-	public Map<String, DisplayTransaction> processTransactions(ResponseWrapper response, boolean ignoreDonuts, boolean crystalBall);
+	public Map<String, DisplayTransaction> processTransactions(ResponseWrapper response, boolean ignoreDonuts, boolean crystalBall,boolean ignoreCreditCardPayment);
 
 }

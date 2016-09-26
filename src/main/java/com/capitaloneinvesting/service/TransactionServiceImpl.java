@@ -70,8 +70,8 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public Map<String, DisplayTransaction> processTransactions(ResponseWrapper response, boolean ignoreDonuts, boolean crystallBall) {
-		Map<String, DisplayTransaction> transaction = Businesslogic.getTransactionsToDisplay(response, ignoreDonuts, crystallBall);
+	public Map<String, DisplayTransaction> processTransactions(ResponseWrapper response, boolean ignoreDonuts, boolean crystallBall,boolean ignoreCreditCardPayment) {
+		Map<String, DisplayTransaction> transaction = Businesslogic.getTransactionsToDisplay(response, ignoreDonuts, crystallBall,ignoreCreditCardPayment);
 		return transaction;
 	}
 

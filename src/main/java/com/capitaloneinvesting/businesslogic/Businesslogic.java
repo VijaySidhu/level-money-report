@@ -27,7 +27,7 @@ public class Businesslogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(Businesslogic.class);
 
-	public static Map<String, DisplayTransaction> getTransactionsToDisplay(ResponseWrapper responseObj, boolean ignoreDonuts, boolean crystalBall) {
+	public static Map<String, DisplayTransaction> getTransactionsToDisplay(ResponseWrapper responseObj, boolean ignoreDonuts, boolean crystalBall, boolean ignoreCreditCardPayment) {
 		int donutTxnCounter = 0;
 		int totalCreditCardPayments = 0;
 		List<Transaction> allTransactionsList;
@@ -38,7 +38,7 @@ public class Businesslogic {
 			long totalSpentTransactionsCount = 0, totalIncomeTransactionsCount = 0;
 
 			for (Transaction transaction : allTransactionsList) {
-				if (crystalBall) {
+				if (ignoreCreditCardPayment) {
 					boolean isCreditCardPayment = isCreditCardPayment(allTransactionsList, transaction);
 					if (true == isCreditCardPayment) {
 						totalCreditCardPayments = totalCreditCardPayments + 1;
@@ -92,16 +92,18 @@ public class Businesslogic {
 			 * Add Average Object to map
 			 */
 			displayTransactionsMap.put("average", ds);
-			logger.info("");
-			logger.info("****************************************************************");
-			logger.info("Total number of credit card payments :: " + totalCreditCardPayments);
-			logger.info("****************************************************************");
-			logger.info("");
-
+			if (ignoreCreditCardPayment) {
+				logger.info("");
+				logger.info("****************************************************************");
+				logger.info("Total number of credit card payments :: " + totalCreditCardPayments);
+				logger.info("****************************************************************");
+				logger.info("");
+			}
 			return displayTransactionsMap;
 		}
 
 		return null;
+
 	}
 
 	private static DisplayTransaction calculateAverage(long totalSpent, long totalIncome, long totalSpentTransactionsCount, long totalIncomeTransactionsCount) {

@@ -49,14 +49,14 @@ Resources Accessible
  		Required      :: No
  		
  		ParameterType :: boolean
- 		ParameterName :: crystal-ball
+ 		ParameterName :: ignore-cc-payments
  		Default       :: true
- 		Description   :: Switch to ignore donut transactions by default API ignores donut transactions but switch is provided as parameter in case if user want to add donut transaction later set ignoreDonuts to false
+ 		Description   :: Switch to ignore credit card payment transaction
  		Required      :: No
 
 
                    1. Open POSTMAN Rest Client
-                   2. http://localhost:8080/transactions/monthlysummary?ignoreDonuts=true&&crystal-ball=true
+                   2. http://localhost:8080/transactions/monthlysummary?ignoreDonuts=true&&ignore-cc-payments=true
                    3. Hit on Get button to retrieve monthly summary
                    4. Click on body tab to see Output (In JSON Format) 
 
@@ -73,11 +73,17 @@ ParameterType :: boolean
  		Default       :: true
  		Description   :: Switch to ignore donut transactions by default API ignores donut transactions but switch is provided as parameter in case if user want to add donut transaction later set ignoreDonuts to false
  		Required      :: No
+ 		
+ 		ParameterType :: boolean
+ 		ParameterName :: ignore-cc-payments
+ 		Default       :: true
+ 		Description   :: Switch to ignore credit card payment transaction
+ 		Required      :: No
 	 
 
 			  
 			  1. Open POSTMAN Rest Client
-			  2. http://localhost:8080/transactions/predictedReport?ignore-donuts=true
+			  2. http://localhost:8080/transactions/predictedReport?ignore-donuts=true&&ignore-cc-payments=true
 			  3. Hit on Get button to retrieve monthly summary
 			  4. Click on body tab to see Output (In JSON Format)
 			  
